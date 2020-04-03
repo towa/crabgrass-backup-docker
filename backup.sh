@@ -1,10 +1,8 @@
-#!/bin/bash -
-echo "$(date)"
-echo "taking snapshot.."
-DOWNLOAD_DIR=$(mktemp -d "cg_download.XXXXXXXX")
+#!/bin/bash
+echo "Taking snapshot.."
 if [ $CG_USE_TOR -eq 1 ]
 then
-  echo "trying to connect via tor"
+  echo "Trying to connect via tor.."
   tortest=$(torsocks wget -qO- https://check.torproject.org/ | grep -m 1 Congratulations)
   if [ "$tortest" ]
   then
@@ -18,19 +16,26 @@ else
   torflag=""
 fi
 
+DOWNLOAD_DIR=$(mktemp -d "$(date +%Y_%m_%d_%).XXXXXXXX")
 for CG_GROUP in $CG_GROUPS
 do
   # Download using crabgrass-tools
+  echo "Downloading $CG_GROUP to $DOWNLOAD_DIR.."
+  SECONDS=0
   /cg_tools/cg-make-snapshot.sh $torflag --base-url $CG_BASE_URL \
-    --user $CG_USERNAME --password $CG_PASSWORD \
+    --user $CG_USERNAME --password $CG_PASSWORD --quiet \
     --download-directory $DOWNLOAD_DIR --subgroup $CG_GROUP
+  duration=$SECONDS
+  echo "Finished downloading $CG_GROUP"
+  echo "duration: $(($duration / 60))m $(($duration % 60))s"
+
 done
 # Backup using borg
-echo "backing up downloaded files using borgbackup.."
-/bin/borg create /backup::$(date +%Y_%m_%d) $DOWNLOAD_DIR
-/bin/borg info /backup::$(date +%Y_%m_%d)
+echo "Creating backup of files.."
+/bin/borg create /backup::$DOWNLOAD_DIR $DOWNLOAD_DIR/
+/bin/borg info /backup::$DOWNLOAD_DIR
 
-echo "removing download directory"
+echo "Removing download directory.."
 rm -r $DOWNLOAD_DIR
 
-echo "finished snapshot!"
+echo "Finished snapshot!"

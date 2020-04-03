@@ -1,10 +1,9 @@
-#!/bin/bash -
+#!/bin/bash
+echo "Starting CBD - Crabgrass Backup Docker"
 # init tor
-echo "$(date)"
-echo "Starting the crapgrass backup container"
 if [ $CG_USE_TOR -eq 1 ]
 then
-  echo "starting tor"
+  echo "Starting tor"
   tor -f /etc/tor/torrc &>/dev/null &
 fi
 # init borg repo
