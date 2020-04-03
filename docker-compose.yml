@@ -1,0 +1,15 @@
+version: "3"
+services:
+    backup:
+        build: .
+        environment:
+          - CG_BASE_URL
+          - CG_USERNAME
+          - CG_PASSWORD
+          - CG_GROUPS
+          - CG_RUN_AT_STARTUP
+          - CG_USE_TOR
+          - BORG_PASSPHRASE
+          - TZ
+        volumes:
+          - ./backup:/backup
