@@ -38,4 +38,7 @@ echo "Creating backup of files.."
 echo "Removing download directory.."
 rm -r $DOWNLOAD_DIR
 
+echo "Removing old backups"
+/bin/borg prune --keep-daily=7 --keep-weekly=4 --keep-monthly=-1 /backup
+
 echo "Finished snapshot!"
