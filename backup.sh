@@ -32,13 +32,12 @@ do
 done
 # Backup using borg
 echo "Creating backup of files.."
-/bin/borg create /backup::$DOWNLOAD_DIR $DOWNLOAD_DIR/
-/bin/borg info /backup::$DOWNLOAD_DIR
+/bin/borg create $BORG_REPO::$DOWNLOAD_DIR $DOWNLOAD_DIR/
 
 echo "Removing download directory.."
 rm -r $DOWNLOAD_DIR
 
 echo "Removing old backups"
-/bin/borg prune --keep-daily=7 --keep-weekly=4 --keep-monthly=-1 /backup
+/bin/borg prune --keep-daily=7 --keep-weekly=4 --keep-monthly=-1 $BORG_REPO
 
 echo "Finished snapshot!"

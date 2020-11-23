@@ -27,10 +27,8 @@ ENV CG_BASE_URL https://we.riseup.net
 ENV CG_USERNAME myUser
 ENV CG_PASSWORD changeme!
 ENV BORG_PASSPHRASE changeme!
+ENV BORG_REPO changeme!
 #ENV TZ Europe/Berlin
 
-# create backup directory and expose as volume
-RUN mkdir -p /backup
-VOLUME /backup
 
 CMD ["/cg_tools/startup.sh"]

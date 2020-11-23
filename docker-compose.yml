@@ -10,6 +10,5 @@ services:
           - CG_RUN_AT_STARTUP
           - CG_USE_TOR
           - BORG_PASSPHRASE
+          - BORG_REPO
           - TZ
-        volumes:
-          - ./backup:/backup
