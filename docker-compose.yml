@@ -1,6 +1,7 @@
 version: "3"
 services:
     backup:
+        restart: always
         build: .
         environment:
           - CG_BASE_URL
