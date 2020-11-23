@@ -31,7 +31,7 @@ ENV CG_USERNAME myUser
 ENV CG_PASSWORD changeme!
 ENV BORG_PASSPHRASE changeme!
 ENV BORG_REPO changeme!
-ENV BORG_RSH ssh -i /key
+ENV BORG_RSH ssh -i /ssh/key
 #ENV TZ Europe/Berlin
 
 
