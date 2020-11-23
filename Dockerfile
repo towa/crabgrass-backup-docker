@@ -2,10 +2,10 @@
 FROM frolvlad/alpine-glibc
 
 # install dependencies
-RUN apk add --no-cache git tor torsocks wget sed bash tzdata
+RUN apk add --no-cache git tor torsocks wget sed bash tzdata openssh
 
 # install borgbackup
-RUN wget -O /bin/borg https://github.com/borgbackup/borg/releases/download/1.1.11/borg-linux64
+RUN wget -O /bin/borg https://github.com/borgbackup/borg/releases/download/1.1.14/borg-linux64
 RUN chmod 755 /bin/borg
 
 # configure tor
@@ -20,6 +20,9 @@ COPY startup.sh /cg_tools
 COPY etc/crontab /etc/cron/crontab
 RUN crontab /etc/cron/crontab
 
+# copy ssh keypair
+COPY ssh /ssh
+
 # set environment
 ENV CG_RUN_AT_STARTUP 1
 ENV CG_GROUPS myGroup
@@ -28,6 +31,7 @@ ENV CG_USERNAME myUser
 ENV CG_PASSWORD changeme!
 ENV BORG_PASSPHRASE changeme!
 ENV BORG_REPO changeme!
+ENV BORG_RSH ssh -i /key
 #ENV TZ Europe/Berlin
 
 
